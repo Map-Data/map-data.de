@@ -1,0 +1,6 @@
+[submodule "map-styles/streetcomplete-mapstyle"]
+	path = map-styles/streetcomplete-mapstyle
+	url = https://github.com/ENT8R/streetcomplete-mapstyle.git
+[submodule "map-styles/cinnabar-style"]
+	path = map-styles/cinnabar-style
+	url = https://github.com/tangrams/cinnabar-style.git
