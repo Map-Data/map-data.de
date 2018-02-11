@@ -1,0 +1,8 @@
+import:
+    - cinnabar-style/cinnabar-style.yaml 
+sources:
+     mapzen:
+         type: MVT
+         url: https://tiles.map-data.de/vector/v1/all/{z}/{x}/{y}.mvt
+         tile_size: 512
+
