@@ -53,7 +53,8 @@
         var cur_style = 'cinnabar';
         var styles = {
             'cinnabar': 'map-styles/cinnabar.yaml',
-            'streetcomplete-light': 'map-styles/streetcomplete-mapstyle/streetcomplete-light-style.yaml'
+            'streetcomplete-light': 'map-styles/streetcomplete-mapstyle/streetcomplete-light-style.yaml',
+	    'streetcomplete-dark': 'map-styles/streetcomplete-mapstyle/streetcomplete-dark-style.yaml'
             };
         function set_style(name, sceene) {
             sceene.load(styles[name])
@@ -97,10 +98,11 @@
         //set_style(cur_style, scene);
     </script>
     <div style="display:block; z-index: 9999; position: absolute;">
-    <form>
-        <input name="layer" type="radio" onclick="set_style('streetcomplete-light', scene);update_ancor(map);">Streetcomplete Style</input>
-        <input name="layer" type="radio"  onclick="set_style('cinnabar', scene);update_ancor(map);">Cinnabar</input>
-        </form>
+     <form>
+       <input name="layer" type="radio" onclick="set_style('streetcomplete-light', scene);update_ancor(map);">StreetComplete Style</input>
+       <input name="layer" type="radio" onclick="set_style('streetcomplete-dark', scene);update_ancor(map);">StreetComplete Dark Style</input>
+	   <input name="layer" type="radio" onclick="set_style('cinnabar', scene);update_ancor(map);">Cinnabar</input>
+	 </form>
    </div>
   </body>
 </html>
