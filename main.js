@@ -33,14 +33,16 @@ if (hash !== undefined && hash !== '') {
     hash = localStorage.getItem("pos")
 }
 
+var map_position = false;
 if (hash !== undefined && hash !== '') {
     fields = hash.split('&');
-    for (i in fields) {
+    for (var i in fields) {
         var field = fields[i].split('=');
         switch (field[0]) {
             case 'map':
                 zpos = field[1].split('/');
                 map.setView([zpos[1], zpos[2]], zpos[0]);
+                map_position = true;
                 break;
             case 'style':
                 console.log('Style: ' + field[1]);
@@ -52,7 +54,7 @@ if (hash !== undefined && hash !== '') {
         }
     }
 }
-else // TODO: do this if setView where not called
+if (!map_position)
 {
     map.setView([53.59955, 9.93301], 17);
 }
