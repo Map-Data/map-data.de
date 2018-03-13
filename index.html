@@ -5,12 +5,12 @@
     http://mapzen.com
 -->
 <html lang="en-us">
-  <head>
+<head>
     <meta charset="utf-8">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Simple demo – Tangram</title>
-    <link rel="stylesheet" href="libs/leaflet/1.0.3/leaflet.css" />
+    <link rel="stylesheet" href="libs/leaflet/1.0.3/leaflet.css"/>
 
     <style>
         body {
@@ -18,91 +18,33 @@
             border: 0px;
             padding: 0px;
         }
+
         #map {
             height: 100%;
             width: 100%;
             position: absolute;
         }
     </style>
-  </head>
+</head>
 
-  <body>
-    <div id="map"></div>
+<body>
+<div id="map"></div>
 
-    <!-- leaflet -->
-    <script src="libs/leaflet/1.0.3/leaflet.js"></script>
-    
-    <!-- Main tangram library -->
-    <script src="libs/tangram/0.14/tangram.min.js"></script>
+<!-- leaflet -->
+<script src="libs/leaflet/1.0.3/leaflet.js"></script>
 
-    <!-- Demo setup -->
-    <script>
-        function update_ancor(map) {
-            zoom = map.getZoom();
-            pos = map.getCenter();
-            var hash = 'map=' + zoom + '/' + pos.lat + '/' + pos.lng +'&style='+cur_style ;
-            window.location.hash = (hash)
-            return true;
-        }
-        //function do_map(new_scene) { 
-        var map = L.map('map');
-        //}
-        //var map = do_map('streetcomplete-mapstyle/streetcomplete-light-style.yaml');
+<!-- Main tangram library -->
+<script src="libs/tangram/0.14/tangram.min.js"></script>
+<!-- Demo setup -->
+<script src="main.js"></script>
 
-        var hash = window.location.hash.split('#',2)[1];
-        var cur_style = 'cinnabar';
-        var styles = {
-            'cinnabar': 'map-styles/cinnabar.yaml',
-            'streetcomplete-light': 'map-styles/streetcomplete-mapstyle/streetcomplete-light-style.yaml',
-	    'streetcomplete-dark': 'map-styles/streetcomplete-mapstyle/streetcomplete-dark-style.yaml'
-            };
-        function set_style(name, sceene) {
-            sceene.load(styles[name])
-            cur_style = name
-        }
-        console.log(hash)
-        if (hash !== undefined && hash !== '')
-        {
-            fields = hash.split('&')
-            for (i in fields) {
-                var field = fields[i].split('=')
-                switch(field[0]) {
-                    case 'map':
-                        zpos = field[1].split('/')
-                        map.setView([zpos[1], zpos[2]], zpos[0])
-                        break;
-                    case 'style':
-                        console.log('Style: '+ field[1])
-                        cur_style=field[1]
-                        break
-                    default:
-                        console.log('unkown argument: '+ field[0])
-                        break
-                }                
-            }
-        }
-        else // TODO: do this if setView where not called
-        {
-            map.setView([53.59955,9.93301], 17);
-        }
-        map.on('zoomend', function(ev) {update_ancor(map)});
-        map.on('moveend', function(ev) {update_ancor(map)});
-
-        var layer = Tangram.leafletLayer({
-	        scene: styles[cur_style],
-            attribution: '<a href="https://mapzen.com/tangram" target="_blank">Tangram</a> | &copy; OSM contributors'
-        });
-        layer.addTo(map);
-        //return map;
-        var scene = layer.scene;
-        //set_style(cur_style, scene);
-    </script>
-    <div style="display:block; z-index: 9999; position: absolute;">
-     <form>
-       <input name="layer" type="radio" onclick="set_style('streetcomplete-light', scene);update_ancor(map);">StreetComplete Style</input>
-       <input name="layer" type="radio" onclick="set_style('streetcomplete-dark', scene);update_ancor(map);">StreetComplete Dark Style</input>
-	   <input name="layer" type="radio" onclick="set_style('cinnabar', scene);update_ancor(map);">Cinnabar</input>
-	 </form>
-   </div>
-  </body>
+<div style="display:block; z-index: 9999; position: absolute;">
+    <form>
+        <input name="layer" type="radio" onclick="set_style('streetcomplete-light', scene);update_ancor(map);">Streetcomplete
+        Style</input>
+        <input name="layer" type="radio" onclick="set_style('streetcomplete-dark', scene);update_ancor(map);">StreetComplete Dark Style</input>
+        <input name="layer" type="radio" onclick="set_style('cinnabar', scene);update_ancor(map);">Cinnabar</input>
+    </form>
+</div>
+</body>
 </html>
