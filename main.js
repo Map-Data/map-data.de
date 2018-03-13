@@ -29,7 +29,7 @@ function set_style(name, sceene) {
 
 console.log(hash);
 
-if (hash !== undefined && hash !== '') {
+if (hash === undefined && hash === '') {
     hash = localStorage.getItem("pos")
 }
 
