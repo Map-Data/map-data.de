@@ -3,7 +3,11 @@ var localStorage = window.localStorage;
 function update_ancor(map) {
     zoom = map.getZoom();
     pos = map.getCenter();
-    var hash = 'map=' + zoom + '/' + pos.lat + '/' + pos.lng + '&style=' + cur_style;
+    srv = ""
+    if (show_server) {
+        srv="&show_server"
+    }
+    var hash = 'map=' + zoom + '/' + pos.lat + '/' + pos.lng + '&style=' + cur_style + srv;
     window.location.hash = (hash);
     localStorage.setItem("pos", hash);
     return true;
@@ -29,12 +33,14 @@ function set_style(name, sceene) {
 
 console.log(hash);
 
-if (hash === undefined && hash === '') {
+if (hash === undefined || hash === '') {
     hash = localStorage.getItem("pos")
 }
 
+var show_server = false;
+
 var map_position = false;
-if (hash !== undefined && hash !== '') {
+if (hash !== undefined && hash !== '' && hash !== null) {
     fields = hash.split('&');
     for (var i in fields) {
         var field = fields[i].split('=');
@@ -48,6 +54,9 @@ if (hash !== undefined && hash !== '') {
                 console.log('Style: ' + field[1]);
                 cur_style = field[1];
                 break;
+            case 'show_server':
+                show_server=true;
+                break;
             default:
                 console.log('unkown argument: ' + field[0]);
                 break
@@ -56,7 +65,7 @@ if (hash !== undefined && hash !== '') {
 }
 if (!map_position)
 {
-    map.setView([53.59955, 9.93301], 17);
+    map.setView([53.5575437, 10.019788742], 13);
 }
 map.on('zoomend', function (ev) {
     update_ancor(map)
@@ -73,3 +82,43 @@ layer.addTo(map);
 //return map;
 var scene = layer.scene;
 //set_style(cur_style, scene);
+
+geojson = cur_tiles;
+
+var servers;
+
+function show_servers() {
+     servers = L.geoJSON(geojson, {
+        style: function (feature) {
+            switch (feature.properties.current) {
+                case 'active':
+                    return {
+                        color: "#55aa55", "weight": 2,
+                        "opacity": 0.65
+                    };
+                case 'passive':
+                    return {
+                        color: "#dddd55", "weight": 2,
+                        "opacity": 0.65
+                    };
+                case 'none':
+                    return {
+                        color: "#aa5555", "weight": 2,
+                        "opacity": 0.65
+                    };
+            }
+        },
+        onEachFeature: function (feature, layer) {
+            var label = L.marker(layer.getBounds().getCenter(), {
+                icon: L.divIcon({
+                    className: 'label',
+                    html: feature.properties.tile,
+                    iconSize: [100, 40]
+                })
+            }).addTo(map);
+        }
+    }).addTo(map);
+}
+if (show_server){
+    show_servers()
+}
